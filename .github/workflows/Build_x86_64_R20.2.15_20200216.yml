@@ -61,8 +61,16 @@ jobs:
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
         REPO_BRANCH: master
-        TZ: America/Los Angeles
+        TZ: America/Los_Angeles
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+    
+    - name: Adding customized app
+      run: |
+          cd package
+          mkdir openwrt-packages
+          cd openwrt-packages
+          git clone https://github.com/vernesong/OpenClash.git
+          git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
 
     - name: Update & Install feeds
       working-directory: ./openwrt
@@ -75,7 +83,6 @@ jobs:
       env:
         CONFIG_FILE: 'x86_64_Mod.config'
       run: |
-        [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
