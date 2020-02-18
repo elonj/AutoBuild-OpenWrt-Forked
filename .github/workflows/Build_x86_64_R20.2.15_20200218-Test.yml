@@ -5,7 +5,7 @@
 # Youtube Channel: https://goo.gl/fvkdwm 
 #=================================================
 
-name: Build_x86_64_R20.2.15_20200216
+name: Build_x86_64_R20.2.15_20200218-Test
 
 on: 
   release:
