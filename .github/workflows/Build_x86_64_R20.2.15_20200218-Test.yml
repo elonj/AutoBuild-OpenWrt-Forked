@@ -74,6 +74,7 @@ jobs:
         rm -rf OpenClash
         git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
         git clone https://github.com/Lienol/openwrt-package package/luci-app-ssr-python-pro-server
+        git clone https://github.com/Flowers-in-thorns/luci-app-vssr-coexist.git package/luci-app-vssr-coexist
 
     - name: Update & Install feeds
       working-directory: ./openwrt
@@ -103,8 +104,28 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
-    - name : Upload artifact
+    #- name : Upload artifact
+    #  uses: actions/upload-artifact@master
+    #  with:
+    #    name: OpenWrt
+    #    path: openwrt/bin
+
+    - name: Upload BIN folder
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: OpenWrt_bin
+        path: openwrt/bin
+
+    - name: Organize files
+      run: |
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/targets/ -name "*uefi*img*" | xargs -i mv -f {} ./artifact/
+
+    - name: Upload fireware
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt
-        path: openwrt/bin
+        name: OpenWrt_firmware
+        path: ./artifact/
