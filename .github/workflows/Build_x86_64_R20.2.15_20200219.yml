@@ -112,7 +112,7 @@ jobs:
     #    path: openwrt/bin
 
     - name: Reduce file size
-      run: rm -rf OpenWrt/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
+      run: rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
 
     - name: Upload BIN folder
       uses: actions/upload-artifact@master
