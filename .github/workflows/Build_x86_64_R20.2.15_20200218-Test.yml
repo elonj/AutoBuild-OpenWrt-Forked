@@ -74,6 +74,8 @@ jobs:
         rm -rf OpenClash
         # git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
         git clone https://github.com/Lienol/openwrt-package package/luci-app-ssr-python-pro-server
+        git clone https://github.com/Leo-Jo-My/my
+        git clone https://github.com/jerrykuku/lua-maxminddb
         git clone https://github.com/Flowers-in-thorns/luci-app-vssr-coexist.git package/luci-app-vssr-coexist
 
     - name: Update & Install feeds
