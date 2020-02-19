@@ -5,7 +5,7 @@
 # Youtube Channel: https://goo.gl/fvkdwm 
 #=================================================
 
-name: Build_x86_64_R20.2.15_20200218-Test
+name: Build_x86_64_R20.2.15
 
 on: 
   release:
@@ -111,11 +111,14 @@ jobs:
     #    name: OpenWrt
     #    path: openwrt/bin
 
+    - name: Reduce file size
+      run: rm -rf openwrt/bin/targets/openwrt-x86-64-rootfs-squashfs.img.gz
+
     - name: Upload BIN folder
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt_bin
+        name: OpenWrt
         path: openwrt/bin
 
     - name: Organize files
