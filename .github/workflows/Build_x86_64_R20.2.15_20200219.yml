@@ -110,15 +110,19 @@ jobs:
     #  with:
     #    name: OpenWrt
     #    path: openwrt/bin
+    - name: Set Date
+      run: |
+        version=$(date +%Y-%m-%d)
+        echo "::set-env name=VERSION::$version"
 
     - name: Reduce file size
-      run: rm -rf openwrt/bin/targets/openwrt-x86-64-rootfs-squashfs.img.gz
+      run: rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
 
     - name: Upload BIN folder
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt
+        name: OpenWrt_${{ env.VERSION }}
         path: openwrt/bin
 
     - name: Organize files
@@ -131,5 +135,5 @@ jobs:
     - name: Upload fireware
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt_firmware
+        name: OpenWrt_firmware_${{ env.VERSION }}
         path: ./artifact/
