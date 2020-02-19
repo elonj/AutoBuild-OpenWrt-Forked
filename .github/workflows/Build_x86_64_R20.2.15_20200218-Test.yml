@@ -73,7 +73,9 @@ jobs:
         mv OpenClash/luci-app-openclash ./luci-app-openclash
         rm -rf OpenClash
         # git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
-        git clone https://github.com/Lienol/openwrt-package package/luci-app-ssr-python-pro-server
+        git clone https://github.com/Lienol/openwrt-package.git
+        mv openwrt-package/lienol/luci-app-ssr-python-pro-server ./luci-app-ssr-python-pro-server
+        rm -rf openwrt-package
 
     - name: Update & Install feeds
       working-directory: ./openwrt
