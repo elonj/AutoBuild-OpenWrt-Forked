@@ -11,9 +11,9 @@ on:
   release:
     types: [published]
 
-  #push:
-  #  branches: 
-  #    - master 
+  push:
+    branches: 
+      - master 
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -100,8 +100,6 @@ jobs:
         mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
         mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
         rm -rf temp_luci
-        opkg update
-        opkg install luci-compat
 
     - name: Install feeds
       working-directory: ./openwrt
