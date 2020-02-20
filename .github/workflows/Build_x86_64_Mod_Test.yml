@@ -11,9 +11,9 @@ on:
   release:
     types: [published]
 
-  #push:
-  #  branches: 
-  #   - master 
+  push:
+    branches: 
+     - master 
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -82,7 +82,10 @@ jobs:
         git clone https://github.com/coolsnowwolf/lede.git
         cd ..
         cd ..
-        mv package/coolsong/lede/package/lean package/lean 
+        mv package/coolsong/lede/package/lean package/lean
+        rm -rf package/lean/luci-app-frpc
+        rm -rf package/lean/luci-app-samba4
+        rm -rf package/lean/luci-app-ttyd
 
     - name: Update feeds
       working-directory: ./openwrt
@@ -144,10 +147,10 @@ jobs:
         version=$(date +%Y-%m-%d)
         echo "::set-env name=VERSION::$version"
 
-    - name: Reduce file size
-      run: |
-        rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
-        rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-vmlinuz
+    # - name: Reduce file size
+      # run: |
+        # rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
+        # rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-vmlinuz
 
     - name: Upload BIN folder
       uses: actions/upload-artifact@master
