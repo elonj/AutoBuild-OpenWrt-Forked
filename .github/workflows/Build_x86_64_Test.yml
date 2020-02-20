@@ -11,9 +11,9 @@ on:
   release:
     types: [published]
 
-  push:
-    branches: 
-      - master 
+  #push:
+  #  branches: 
+  #    - master 
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -56,6 +56,7 @@ jobs:
         sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
+
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
@@ -71,6 +72,9 @@ jobs:
         git clone https://github.com/vernesong/OpenClash.git
         mv OpenClash/luci-app-openclash ./luci-app-openclash
         rm -rf OpenClash
+        git clone https://github.com/pymumu/smartdns.git
+        mv smartdns/package/luci ./luci-app-smartdns
+        rm -rf smartdns
         # git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
         git clone https://github.com/Lienol/openwrt-package.git
         mv openwrt-package/lienol/luci-app-ssr-python-pro-server ./luci-app-ssr-python-pro-server
@@ -80,8 +84,22 @@ jobs:
       working-directory: ./openwrt
       run: ./scripts/feeds update -a
 
-    - name: SSH connection to Actions
-      uses: P3TERX/debugger-action@master
+    #- name: SSH connection to Actions
+    #  uses: P3TERX/debugger-action@master
+
+    - name: Replacing applications
+      working-directory: ./openwrt
+      run: |
+        rm -rf feeds/luci/applications/luci-app-nlbwmon
+        rm -rf feeds/luci/applications/luci-app-vnstat
+        mkdir temp_luci
+        cd temp_luci
+        git clone https://github.com/openwrt/luci.git
+        cd ..
+        mv temp_luci/luci/applications/luci-app-nlbwmon feeds/luci/applications/luci-app-nlbwmon
+        mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
+        mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
+        rm -rf temp_luci
 
     - name: Update & Install feeds
       working-directory: ./openwrt
@@ -89,7 +107,7 @@ jobs:
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
-    - name: Configuration Customization - Build_x86_64_Mod
+    - name: Configuration Customization - Build_x86_64_Mod_Test
       env:
         CONFIG_FILE: 'x86_64_Mod.config'
       run: |
@@ -103,24 +121,29 @@ jobs:
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+
     - name: Build firmware
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
+
     #- name : Upload artifact
     #  uses: actions/upload-artifact@master
     #  with:
     #    name: OpenWrt
     #    path: openwrt/bin
+
     - name: Set Date
       run: |
         version=$(date +%Y-%m-%d)
         echo "::set-env name=VERSION::$version"
+
     - name: Reduce file size
       run: |
         rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
         rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-vmlinuz
+
     - name: Upload BIN folder
       uses: actions/upload-artifact@master
       if: always()
@@ -134,6 +157,7 @@ jobs:
           mkdir -p ./artifact/
           find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
           find openwrt/bin/targets/ -name "*uefi*img*" | xargs -i mv -f {} ./artifact/
+
     - name: Upload fireware
       uses: actions/upload-artifact@master
       with:
