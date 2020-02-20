@@ -59,7 +59,7 @@ jobs:
 
     - name: Clone source code
       env: 
-        REPO_URL: https://github.com/openwrt/openwrt
+        REPO_URL: https://github.com/coolsnowwolf/lede
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
@@ -98,7 +98,6 @@ jobs:
         cd ..
         mv temp_luci/luci/applications/luci-app-nlbwmon feeds/luci/applications/luci-app-nlbwmon
         mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
-        # mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
         mv temp_luci/luci/modules/luci-compat feeds/luci/modules/luci-compat
         mv temp_luci/luci/libs/luci-lib-ipkg feeds/luci/libs/luci-lib-ipkg
         rm -rf temp_luci
