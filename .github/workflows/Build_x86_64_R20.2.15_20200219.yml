@@ -11,9 +11,9 @@ on:
   release:
     types: [published]
 
-  push:
-    branches: 
-      - master 
+  #push:
+  #  branches: 
+  #    - master 
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -116,7 +116,9 @@ jobs:
         echo "::set-env name=VERSION::$version"
 
     - name: Reduce file size
-      run: rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
+      run: |
+        rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-rootfs-squashfs.img.gz
+        rm -rf openwrt/bin/targets/x86/64/openwrt-x86-64-vmlinuz
 
     - name: Upload BIN folder
       uses: actions/upload-artifact@master
