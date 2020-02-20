@@ -11,9 +11,9 @@ on:
   release:
     types: [published]
 
-  #push:
-  #  branches: 
-  #   - master 
+  push:
+    branches: 
+     - master 
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -87,29 +87,21 @@ jobs:
     #- name: SSH connection to Actions
     #  uses: P3TERX/debugger-action@master
 
-    #- name: Replacing applications
-    #  working-directory: ./openwrt
-    #  run: |
-        # rm -rf feeds/luci/applications/luci-app-nlbwmon
-        # rm -rf feeds/luci/applications/luci-app-vnstat
-        # mkdir temp_luci
-        # cd temp_luci
-        # git clone https://github.com/openwrt/luci.git
-        # cd ..
-        # mv temp_luci/luci/applications/luci-app-nlbwmon feeds/luci/applications/luci-app-nlbwmon
-        # mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
+    - name: Replacing applications
+      working-directory: ./openwrt
+      run: |
+        rm -rf feeds/luci/applications/luci-app-nlbwmon
+        rm -rf feeds/luci/applications/luci-app-vnstat
+        mkdir temp_luci
+        cd temp_luci
+        git clone https://github.com/openwrt/luci.git
+        cd ..
+        mv temp_luci/luci/applications/luci-app-nlbwmon feeds/luci/applications/luci-app-nlbwmon
+        mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
         # mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
-        # mv temp_luci/luci/modules/luci-compat feeds/luci/modules/luci-compat
-        # rm -rf temp_luci
-    #    mkdir temp_luci
-    #    cd temp_luci
-    #    git clone https://github.com/coolsnowwolf/lede.git
-    #    cd ..
-    #    mv temp_luci/lede/package/lean package/lean
-    #    rm -rf package/lean/luci-app-frpc
-    #    rm -rf package/lean/luci-app-samba4
-    #    rm -rf package/lean/luci-app-ttyd
-    #    rm -rf temp_luci
+        mv temp_luci/luci/modules/luci-compat feeds/luci/modules/luci-compat
+        mv temp_luci/luci/libs/luci-lib-ipkg feeds/luci/libs/luci-lib-ipkg
+        rm -rf temp_luci
 
     - name: Install feeds
       working-directory: ./openwrt
