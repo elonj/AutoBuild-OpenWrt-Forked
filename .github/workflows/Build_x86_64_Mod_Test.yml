@@ -11,9 +11,9 @@ on:
   release:
     types: [published]
 
-  push:
-    branches: 
-      - master 
+  #push:
+  #  branches: 
+  #   - master 
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -59,7 +59,7 @@ jobs:
 
     - name: Clone source code
       env: 
-        REPO_URL: https://github.com/coolsnowwolf/lede
+        REPO_URL: https://github.com/openwrt/openwrt
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
@@ -79,6 +79,10 @@ jobs:
         git clone https://github.com/Lienol/openwrt-package.git
         mv openwrt-package/lienol/luci-app-ssr-python-pro-server ./luci-app-ssr-python-pro-server
         rm -rf openwrt-package
+        git clone https://github.com/coolsnowwolf/lede.git
+        cd ..
+        cd ..
+        mv package/coolsong/lede/package/lean package/lean 
 
     - name: Update feeds
       working-directory: ./openwrt
@@ -87,20 +91,20 @@ jobs:
     #- name: SSH connection to Actions
     #  uses: P3TERX/debugger-action@master
 
-    - name: Replacing applications
-      working-directory: ./openwrt
-      run: |
-        rm -rf feeds/luci/applications/luci-app-nlbwmon
-        rm -rf feeds/luci/applications/luci-app-vnstat
-        mkdir temp_luci
-        cd temp_luci
-        git clone https://github.com/openwrt/luci.git
-        cd ..
-        mv temp_luci/luci/applications/luci-app-nlbwmon feeds/luci/applications/luci-app-nlbwmon
-        mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
-        mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
-        mv temp_luci/luci/modules/luci-compat feeds/luci/modules/luci-compat
-        rm -rf temp_luci
+    # - name: Replacing applications
+      # working-directory: ./openwrt
+      # run: |
+        # rm -rf feeds/luci/applications/luci-app-nlbwmon
+        # rm -rf feeds/luci/applications/luci-app-vnstat
+        # mkdir temp_luci
+        # cd temp_luci
+        # git clone https://github.com/openwrt/luci.git
+        # cd ..
+        # mv temp_luci/luci/applications/luci-app-nlbwmon feeds/luci/applications/luci-app-nlbwmon
+        # mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
+        # mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
+        # mv temp_luci/luci/modules/luci-compat feeds/luci/modules/luci-compat
+        # rm -rf temp_luci
 
     - name: Install feeds
       working-directory: ./openwrt
