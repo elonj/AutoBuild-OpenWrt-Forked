@@ -99,6 +99,7 @@ jobs:
         mv temp_luci/luci/applications/luci-app-nlbwmon feeds/luci/applications/luci-app-nlbwmon
         mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
         mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
+        mv temp_luci/luci/modules/luci-compat feeds/luci/modules/luci-compat
         rm -rf temp_luci
 
     - name: Install feeds
