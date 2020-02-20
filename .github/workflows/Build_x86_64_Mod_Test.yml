@@ -5,15 +5,15 @@
 # Youtube Channel: https://goo.gl/fvkdwm 
 #=================================================
 
-name: Build_x86_64_Test
+name: Build_x86_64_Mod_Test
 
 on: 
   release:
     types: [published]
 
-  #push:
-  #  branches: 
-  #    - master 
+  push:
+    branches: 
+      - master 
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -100,6 +100,8 @@ jobs:
         mv temp_luci/luci/applications/luci-app-vnstat feeds/luci/applications/luci-app-vnstat
         mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
         rm -rf temp_luci
+        opkg update
+        opkg install luci-compat
 
     - name: Update & Install feeds
       working-directory: ./openwrt
@@ -109,7 +111,7 @@ jobs:
 
     - name: Configuration Customization - Build_x86_64_Mod_Test
       env:
-        CONFIG_FILE: 'x86_64_Mod.config'
+        CONFIG_FILE: 'x86_64_Mod_test.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
