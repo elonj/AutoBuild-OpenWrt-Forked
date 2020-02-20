@@ -86,6 +86,7 @@ jobs:
         rm -rf package/lean/luci-app-frpc
         rm -rf package/lean/luci-app-samba4
         rm -rf package/lean/luci-app-ttyd
+        rm -rf package/coolsong/lede
 
     - name: Update feeds
       working-directory: ./openwrt
