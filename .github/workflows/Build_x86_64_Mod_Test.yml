@@ -101,15 +101,15 @@ jobs:
         # mv temp_luci/luci/applications/luci-app-vnstat2 feeds/luci/applications/luci-app-vnstat2
         # mv temp_luci/luci/modules/luci-compat feeds/luci/modules/luci-compat
         # rm -rf temp_luci
-        cd openwrt/package/coolsong
+        mkdir temp_luci
+        cd temp_luci
         git clone https://github.com/coolsnowwolf/lede.git
         cd ..
-        cd ..
-        mv package/coolsong/lede/package/lean package/lean
+        mv temp_luci/lede/package/lean package/lean
         rm -rf package/lean/luci-app-frpc
         rm -rf package/lean/luci-app-samba4
         rm -rf package/lean/luci-app-ttyd
-        rm -rf package/coolsong/lede
+        rm -rf temp_luci
 
     - name: Install feeds
       working-directory: ./openwrt
