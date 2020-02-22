@@ -83,10 +83,10 @@ jobs:
         rm -rf openwrt
 
     - name: Replace feeds
-     run: |
-         cd openwrt
-         rm -rf feeds.conf.default
-         cp ../feeds.conf.default feeds.conf.default
+      run: |
+        cd openwrt
+        rm -rf feeds.conf.default
+        cp ../feeds.conf.default feeds.conf.default
 
     - name: Update feeds
       working-directory: ./openwrt
