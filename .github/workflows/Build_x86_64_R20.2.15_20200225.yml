@@ -74,7 +74,7 @@ jobs:
         rm -rf OpenClash
         git clone -b dev-19.07 https://github.com/Lienol/openwrt
         mv openwrt/package/lean/luci-app-smartdns ./luci-app-smartdns
-		mv openwrt/package/lean/smartdns ./smartdns
+        mv openwrt/package/lean/smartdns ./smartdns
         rm -rf openwrt
         git clone https://github.com/Lienol/openwrt-package.git
         mv openwrt-package/lienol/luci-app-ssr-python-pro-server ./luci-app-ssr-python-pro-server
